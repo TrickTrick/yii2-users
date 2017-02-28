@@ -30,8 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'country')->widget(\frontend\widget\DatalistWidget::className(),
                 [
-                        'options' => Country::getList(),
-                        'placeholder' => 'Select country',
+                    'options' => Country::getList(),
+                    'placeholder' => 'Select country',
                 ]
             ); ?>
 

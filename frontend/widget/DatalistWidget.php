@@ -32,8 +32,8 @@ class DatalistWidget extends InputWidget
             $result = Html::input('text', $name, null, ['list' => $this->attribute, 'class' => 'form-control', 'placeholder' => $this->placeholder]);
             $result .= '<datalist id="' . $this->attribute . '">';
             $result .= '<select name="' . $name . '">';
-            foreach ($this->options as $option) {
-                $result .= '<option value="' . $option . '">' . $option . '</option>';
+            foreach ($this->options as $id => $option) {
+                $result .= '<option value="' . $option . '">' . $id . '</option>';
             }
             $result .= '</select>';
             $result .= '</datalist>';
