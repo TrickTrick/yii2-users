@@ -28,9 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'birthday')->input('date') ?>
 
-            <?= $form->field($model, 'country')->widget(\frontend\widget\DatalistWidget::widget([
-                'options' => \yii\helpers\ArrayHelper::merge([0 => 'Select country...'], Country::getList())
-            ])) ?>
+            <?= $form->field($model, 'country')->widget(\frontend\widget\DatalistWidget::className(),
+                [
+                        'options' => Country::getList(),
+                        'placeholder' => 'Select country',
+                ]
+            ); ?>
 
             <div class="form-group">
                 <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>

@@ -8,11 +8,14 @@
 
 namespace frontend\widget;
 
-use yii\base\Widget;
+use yii\bootstrap\Html;
+use yii\helpers\StringHelper;
+use yii\widgets\InputWidget;
 
-class DatalistWidget extends Widget
+class DatalistWidget extends InputWidget
 {
     public $options;
+    public $placeholder;
 
     public function init()
     {
@@ -24,22 +27,17 @@ class DatalistWidget extends Widget
 
     public function run()
     {
-        return '<input type="text" name="test">123</text>';
+        if ($this->hasModel()) {
+            $name = StringHelper::basename(get_class($this->model)) . '[' . $this->attribute . ']';
+            $result = Html::input('text', $name, null, ['list' => $this->attribute, 'class' => 'form-control', 'placeholder' => $this->placeholder]);
+            $result .= '<datalist id="' . $this->attribute . '">';
+            $result .= '<select name="' . $name . '">';
+            foreach ($this->options as $option) {
+                $result .= '<option value="' . $option . '">' . $option . '</option>';
+            }
+            $result .= '</select>';
+            $result .= '</datalist>';
+        }
+        echo $result;
     }
-
-    /**
-        <label> Enter your favorite movies:<br/>
-        <input type="text" name="Card[movies]" list="movies"/>
-        <datalist id="movies">
-
-        <label> or select one from the list:
-        <select name="Card[movies]">
-        <option value="Star Wars">
-        <option value="The Godfather">
-        <option value="Goodfellas">
-        </select>
-        </label>
-        </datalist>
-        </label>
-     */
 }

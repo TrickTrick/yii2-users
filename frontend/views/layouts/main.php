@@ -34,7 +34,7 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [['Administrator Panel']];
+    $menuItems = [['label' => 'Administrator Panel', 'url' => '/admin']];
     if (!Yii::$app->user->isGuest) {
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
