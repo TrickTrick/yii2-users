@@ -1,0 +1,31 @@
+RewriteEngine On
+
+    RedirectMatch 301 /frontend/web/index.php/(.*) /$1
+    RedirectMatch 301 /backend/web/index.php/(.*) /admin/$1
+
+    # deal with admin first
+#    RewriteCond %{REQUEST_URI} ^(.*)/(admin)
+#    RewriteRule ^(.*)admin/assets/(.*)$ backend/web/assets/$2 [L]
+#    RewriteRule ^(.*)admin/css/(.*)$ backend/web/css/$2 [L]
+#
+#    RewriteCond %{REQUEST_URI} !^/backend/web/(assets|css|images|fonts|js)/
+    RewriteCond %{REQUEST_URI} ^(.*)/(admin)
+    RewriteRule ^.*$ backend/web/index.php [L]
+#
+    RewriteCond %{REQUEST_URI} ^/(assets|css|images|video|fonts|js|minify)
+    RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
+    RewriteRule ^fonts/(.*)$ frontend/web/files/fonts/$1 [L]
+    RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
+    RewriteRule ^uploads/(.*)$ uploads/$1 [L]
+    RewriteRule ^images/(.*)$ images/$1 [L]
+    RewriteRule ^video/(.*)$ video/$1 [L]
+    RewriteRule ^minify/(.*)$ frontend/web/minify/$1 [L]
+#
+    RewriteCond %{REQUEST_URI} !^/(frontend|backend)/web/(assets|css|images|fonts|js|minify)/
+    RewriteCond %{REQUEST_URI} !index.php
+#    RewriteCond %{REQUEST_URI} !getWsdl.php
+    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ frontend/web/index.php [NC,L,QSA]
+
+RedirectMatch 301 /frontend/web/index.php/(.*) /$1
