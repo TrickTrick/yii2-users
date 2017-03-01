@@ -28,7 +28,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => 'BLACK HEADER',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -38,7 +38,7 @@ AppAsset::register($this);
             ['label' => 'Administrator Panel', 'url' => '/admin'],
     ];
     if (!Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Dashboard', 'url' => 'dashboard/index'];
+        $menuItems[] = ['label' => 'Dashboard', 'url' => ['dashboard/index']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
@@ -56,9 +56,6 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
