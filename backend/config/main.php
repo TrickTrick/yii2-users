@@ -45,6 +45,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '' => 'user/index',
+                '<action:[\w+]>' => 'user/<action>',
             ],
         ],
     ],
