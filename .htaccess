@@ -4,9 +4,9 @@ RewriteEngine On
     RedirectMatch 301 /backend/web/index.php/(.*) /admin/$1
 
     # deal with admin first
-#    RewriteCond %{REQUEST_URI} ^(.*)/(admin)
-#    RewriteRule ^(.*)admin/assets/(.*)$ backend/web/assets/$2 [L]
-#    RewriteRule ^(.*)admin/css/(.*)$ backend/web/css/$2 [L]
+    RewriteCond %{REQUEST_URI} ^(.*)/(admin)
+    RewriteRule ^(.*)admin/assets/(.*)$ backend/web/assets/$2 [L]
+    RewriteRule ^(.*)admin/css/(.*)$ backend/web/css/$2 [L]
 #
 #    RewriteCond %{REQUEST_URI} !^/backend/web/(assets|css|images|fonts|js)/
     RewriteCond %{REQUEST_URI} ^(.*)/(admin)
