@@ -43,9 +43,8 @@ class SiteController extends Controller
             \Yii::$app->session->setFlash('success', 'You are logged!');
         }
 
-
         $modelSignUp = new SignupForm();
-        if ($modelSignUp->load(Yii::$app->request->post())) {
+        if ($modelSignUp->load(Yii::$app->request->post()) && $modelSignUp->validate()) {
             if ($user = $modelSignUp->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
                     \Yii::$app->session->setFlash('success', 'You are registered!');
