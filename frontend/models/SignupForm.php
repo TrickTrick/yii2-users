@@ -15,6 +15,7 @@ class SignupForm extends Model
     public $country;
     public $birthday;
 
+    const AVAILABLE_AGE_FOR_SNG = 18;
 
     /**
      * @inheritdoc
@@ -29,6 +30,7 @@ class SignupForm extends Model
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
+            ['email', 'match', 'pattern' => '/^([a-z0-9]{3,6}+([_\.\-]{1}[a-z0-9]+)*){1}([@]){1}([a-z0-9]+([_\-]{1}[a-z0-9]+)*)+(([\.]{1}[a-z]{2,6}((?!ru|ua).)){0,3}){1}$/'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
 
@@ -38,10 +40,32 @@ class SignupForm extends Model
             ['country', 'required'],
 
             ['birthday', 'required'],
+            ['birthday', 'validDate'],
+            ['birthday', 'checkAge', 'when' => function($model) {
+                return in_array($model->country, [203, 'Ukraine', 173, 'Russian Federation']);
+            }],
 
         ];
     }
 
+    public function checkAge($attribute)
+    {
+        $dateModel = new \DateTime($this->$attribute);
+        $age = ($dateModel->diff(new \DateTime()));
+        if ((int)$age->format('%Y') <= self::AVAILABLE_AGE_FOR_SNG) {
+            $this->addError($attribute, 'When mom stops you give money to the buns, come to us.');
+        }
+    }
+
+    public function validDate($attribute)
+    {
+        $attrTimestamp = (new \DateTime($this->$attribute))->getTimestamp();
+        $currentTimestamp = (new \DateTime())->getTimestamp();
+
+        if($attrTimestamp > $currentTimestamp){
+            $this->addError($attribute, 'DOB Must be valid.');
+        }
+    }
     /**
      * Signs user up.
      *
@@ -56,9 +80,11 @@ class SignupForm extends Model
         $user = new User();
         $user->username = $this->email;
         $user->email = $this->email;
+        $user->ip = \Yii::$app->request->getUserIP();
+        $user->birthday = $this->birthday;
         $user->setPassword($this->password);
         $user->generateAuthKey();
-        
+
         return $user->save() ? $user : null;
     }
 }
