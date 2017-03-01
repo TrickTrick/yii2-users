@@ -88,6 +88,17 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Finds user by email
+     *
+     * @param string $email
+     * @return static|null
+     */
+    public static function findByEmail($email)
+    {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    /**
      * Finds user by password reset token
      *
      * @param string $token password reset token
@@ -117,7 +128,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -189,5 +200,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function cannotGetAccess()
+    {
+        return !in_array($this->role, [self:: ROLE_MANAGER,self::ROLE_ADMINISTRATOR]);
     }
 }
