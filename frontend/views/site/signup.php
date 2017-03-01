@@ -7,12 +7,9 @@
 use frontend\helpers\country\Country;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-
-$this->title = 'Signup';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>Sign up</h1>
 
     <p>Please fill out the following fields to signup:</p>
 
@@ -27,6 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'password')->passwordInput() ?>
 
             <?= $form->field($model, 'birthday')->input('date') ?>
+
+            <?= $form->field($model, 'role')->radioList([
+                \common\models\User::ROLE_USER => 'Default User',
+                \common\models\User::ROLE_MANAGER => 'Manager',
+                \common\models\User::ROLE_ADMINISTRATOR => 'Admin']) ?>
 
             <?= $form->field($model, 'country')->widget(\frontend\widget\DatalistWidget::className(),
                 [

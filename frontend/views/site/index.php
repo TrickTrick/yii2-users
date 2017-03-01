@@ -2,11 +2,9 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'Lets Fun';
+$this->title = 'BLACK HEADER';
 ?>
 <div class="site-index">
-
-
     <div class="container">
         <div class="col-md-6">
             <?= $this->render('login', ['model' => $modelLogin]);?>
