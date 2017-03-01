@@ -29,13 +29,12 @@ class DatalistWidget extends InputWidget
     {
         if ($this->hasModel()) {
             $name = StringHelper::basename(get_class($this->model)) . '[' . $this->attribute . ']';
-            $result = Html::input('text', $name, null, ['list' => $this->attribute, 'class' => 'form-control', 'placeholder' => $this->placeholder]);
+
+            $result = Html::input('text', $name, $this->model->{$this->attribute}, ['list' => $this->attribute, 'class' => 'form-control', 'placeholder' => $this->placeholder]);
             $result .= '<datalist id="' . $this->attribute . '">';
-            $result .= '<select name="' . $name . '">';
             foreach ($this->options as $id => $option) {
-                $result .= '<option value="' . $option . '">' . $id . '</option>';
+                $result .= '<option value="' . $option . '"></option>';
             }
-            $result .= '</select>';
             $result .= '</datalist>';
         }
         echo $result;
