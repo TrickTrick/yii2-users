@@ -69,15 +69,15 @@ class BaseController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'init', 'update', 'view', 'delete'],
+                        'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                    [
-                        'allow' => true,
-                        'actions' => ['index'],
-                        'roles' => [UserPermissions::MANAGE_ITEMS],
-                    ],
+//                    [
+//                        'allow' => true,
+//                        'actions' => ['index'],
+//                        'roles' => [UserPermissions::MANAGE_ITEMS],
+//                    ],
                     [
                         'allow' => true,
                         'actions' => ['view'],
