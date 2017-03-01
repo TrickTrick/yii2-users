@@ -14,6 +14,7 @@ class SignupForm extends Model
     public $password;
     public $country;
     public $birthday;
+    public $role;
 
     const AVAILABLE_AGE_FOR_SNG = 18;
 
@@ -30,7 +31,8 @@ class SignupForm extends Model
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'match', 'pattern' => '/^([a-z0-9]{3,}+([_\.\-]{1}[a-z0-9]+)*){1}([@]){1}([a-z0-9]+([_\-]{1}[a-z0-9]+)*)+(([\.]{1}[a-z]{2,6}){0,3}){1}$/'],
+            ['email', 'match', 'pattern' => '/^([a-z0-9]{3,}+([_\.\-]{1}[a-z0-9]+)*){1}([@]){1}([a-z0-9]+([_\-]{1}[a-z0-9]+)*)+(([\.]{1}[a-z]{2,6}){0,3}){1}$/',
+                'message' => 'Enter a valid email.'],
             ['email', 'isAdequate', 'when' => function($model) {
                 $mailParts = explode('@', $model->email);
                 return preg_match('(\.ru|\.ua)', $mailParts[1]);
@@ -45,6 +47,8 @@ class SignupForm extends Model
 
             ['birthday', 'required'],
             ['birthday', 'validDate'],
+
+            ['role', 'required'],
         ];
     }
     /**
@@ -85,6 +89,7 @@ class SignupForm extends Model
         $user = new User();
         $user->username = $this->email;
         $user->email = $this->email;
+        $user->role = $this->role;
         $user->ip = \Yii::$app->request->getUserIP();
         $user->birthday = $this->birthday;
         $user->setPassword($this->password);
