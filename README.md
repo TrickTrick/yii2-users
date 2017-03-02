@@ -4,7 +4,6 @@
 - php composer.phar global require "fxp/composer-asset-plugin:^1.2.0" 
 - php composer.phar install
 - yii migrate
-- yii migrate --migrationPath=@yii/rbac/migrations
 - http://yii2.localhost/site/init - yii2.localhost = (your localsite url)
 
 
