@@ -1,23 +1,54 @@
 <?php
 namespace frontend\controllers;
 
+use backend\helpers\UserPermissions;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
 
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
+    public function actionInit()
+    {
+        $auth = Yii::$app->authManager;
+
+        $manageItems = $auth->createPermission(UserPermissions::MANAGE_ITEMS);
+        $manageItems->description = 'Manage items';
+        $auth->add($manageItems);
+
+        $deleteItem = $auth->createPermission(UserPermissions::DELETE_ITEMS);
+        $deleteItem->description = 'Delete item';
+        $auth->add($deleteItem);
+
+        $updateUser = $auth->createPermission(UserPermissions::UPDATE_ITEMS);
+        $updateUser->description = 'Edit a user';
+        $auth->add($updateUser);
+
+        $viewUser = $auth->createPermission(UserPermissions::VIEW_ITEMS);
+        $viewUser->description = 'View user';
+        $auth->add($viewUser);
+
+        $manager = $auth->createRole(UserPermissions::ROLE_MANAGER);
+        $auth->add($manager);
+        $auth->addChild($manager, $viewUser);
+        $auth->addChild($manager, $manageItems);
+
+        $admin = $auth->createRole(UserPermissions::ROLE_ADMIN);
+        $auth->add($admin);
+        $auth->addChild($admin, $deleteItem);
+        $auth->addChild($admin, $viewUser);
+        $auth->addChild($admin, $updateUser);
+        $auth->addChild($admin, $manageItems);
+        $auth->addChild($admin, $manager);
+    }
 
     /**
      * @inheritdoc
