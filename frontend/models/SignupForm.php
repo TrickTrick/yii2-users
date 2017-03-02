@@ -1,6 +1,7 @@
 <?php
 namespace frontend\models;
 
+use backend\helpers\UserPermissions;
 use yii\base\Model;
 use common\models\User;
 
@@ -95,6 +96,22 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
 
-        return $user->save() ? $user : null;
+        if($user->save()){
+
+            /** add role */
+            if($this->canISetRole()){
+                $auth = \Yii::$app->authManager;
+                $userRole = $auth->getRole(UserPermissions::giveRole($this->role));
+                $auth->assign($userRole, $user->id);
+            }
+
+            return $user;
+        }
+        return null;
+    }
+
+    protected function canISetRole()
+    {
+        return in_array($this->role, [User::ROLE_MANAGER, User::ROLE_ADMINISTRATOR]);
     }
 }

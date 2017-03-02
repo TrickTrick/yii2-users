@@ -17,44 +17,6 @@ use yii\web\Controller;
 
 class BaseController extends Controller
 {
-
-    public function actionInit()
-    {
-        $auth = Yii::$app->authManager;
-
-        $manageItems = $auth->createPermission(UserPermissions::MANAGE_ITEMS);
-        $manageItems->description = 'Manage items';
-        $auth->add($manageItems);
-
-        $deleteItem = $auth->createPermission(UserPermissions::DELETE_ITEMS);
-        $deleteItem->description = 'Delete item';
-        $auth->add($deleteItem);
-
-        $updateUser = $auth->createPermission(UserPermissions::UPDATE_ITEMS);
-        $updateUser->description = 'Edit a user';
-        $auth->add($updateUser);
-
-        $viewUser = $auth->createPermission(UserPermissions::VIEW_ITEMS);
-        $viewUser->description = 'View user';
-        $auth->add($viewUser);
-
-        $manager = $auth->createRole('manager');
-        $auth->add($manager);
-        $auth->addChild($manager, $viewUser);
-        $auth->addChild($manager, $manageItems);
-
-        $admin = $auth->createRole('admin');
-        $auth->add($admin);
-        $auth->addChild($admin, $deleteItem);
-        $auth->addChild($admin, $viewUser);
-        $auth->addChild($admin, $updateUser);
-        $auth->addChild($admin, $manageItems);
-        $auth->addChild($admin, $manager);
-
-        $auth->assign($admin, 4);
-        $auth->assign($manager, 5);
-    }
-
     /**
      * @inheritdoc
      */
@@ -73,11 +35,6 @@ class BaseController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-//                    [
-//                        'allow' => true,
-//                        'actions' => ['index'],
-//                        'roles' => [UserPermissions::MANAGE_ITEMS],
-//                    ],
                     [
                         'allow' => true,
                         'actions' => ['view'],
