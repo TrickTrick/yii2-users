@@ -26,8 +26,6 @@ class UserPermissions
             return UserPermissions::ROLE_ADMIN;
         }
         return UserPermissions::ROLE_MANAGER;
-
-//        return ($role == User::ROLE_MANAGER) ? UserPermissions::ROLE_MANAGER : UserPermissions::ROLE_ADMIN;
     }
 
 }

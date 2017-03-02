@@ -48,6 +48,8 @@ class SiteController extends Controller
         $auth->addChild($admin, $updateUser);
         $auth->addChild($admin, $manageItems);
         $auth->addChild($admin, $manager);
+
+        return $this->redirect('site/index');
     }
 
     /**

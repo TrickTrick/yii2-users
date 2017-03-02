@@ -2,6 +2,7 @@
 namespace backend\models;
 
 use common\models\User;
+use common\models\UserLog;
 use Yii;
 use yii\base\Model;
 
@@ -72,7 +73,9 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            if(UserLog::add($this->getUser()) && User::canILogIn($this->getUser())){
+                return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            }
         } else {
             return false;
         }

@@ -30,7 +30,7 @@ class User extends ActiveRecord implements IdentityInterface
     const ROLE_MANAGER = 5;
     const ROLE_ADMINISTRATOR = 10;
 
-
+    const DIFFERENT_IPS = 5;
     /**
      * @inheritdoc
      */
@@ -204,6 +204,23 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function cannotGetAccess()
     {
-        return !in_array($this->role, [self:: ROLE_MANAGER,self::ROLE_ADMINISTRATOR]);
+        return !in_array($this->role, [self:: ROLE_MANAGER, self::ROLE_ADMINISTRATOR]);
+    }
+
+    public static function canILogIn(User $user)
+    {
+        if (User::iExceededLimit($user)){
+            \Yii::$app->session->setFlash('error', 'Sorry, you are cannot login, contact to administrator.');
+            return false;
+        } elseif (UserLog::isItNewIp($user)){
+            \Yii::$app->session->setFlash('success', 'New IP Detected.');
+        } else {
+            \Yii::$app->session->setFlash('success', 'Hello!');
+        }
+        return true;
+    }
+
+    protected static function iExceededLimit($user){
+        return UserLog::getDiffIps($user) >= self::DIFFERENT_IPS ? true : false;
     }
 }
