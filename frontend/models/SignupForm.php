@@ -93,6 +93,7 @@ class SignupForm extends Model
         $user->role = $this->role;
         $user->ip = \Yii::$app->request->getUserIP();
         $user->birthday = $this->birthday;
+        $user->country = $this->country;
         $user->setPassword($this->password);
         $user->generateAuthKey();
 
