@@ -37,4 +37,10 @@ In this controller Available only Create action
 - 0 => User (Access only to Dashboard)
 - 5 => Manager (Access to Dashboard and Admin Panel only View action)
 - 10 => Administrator (Full Access)
+
+---
+TEST
+---
+- vendor\bin\codecept build
+- vendor\bin\codecept run
  
