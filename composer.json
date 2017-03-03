@@ -6,7 +6,8 @@
     "type": "project",
     "minimum-stability": "dev",
     "require": {
-        "yiisoft/yii2": "2.0.11"
+        "yiisoft/yii2": "2.0.11",
+        "codeception/codeception": "2.2.9"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "2.0.7",
@@ -14,7 +15,8 @@
         "yiisoft/yii2-faker": "~2.0.0",
 
         "codeception/base": "^2.2.3",
-        "codeception/verify": "~0.3.1"
+        "codeception/verify": "~0.3.1",
+        "facebook/webdriver": "^1.0.1"
     },
     "config": {
         "process-timeout": 1800

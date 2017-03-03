@@ -1,0 +1,7 @@
+class_name: ApiTester
+modules:
+    enabled:
+        - REST:
+            url: http://yii2.localhost/
+            depends: PhpBrowser
+            part: Json
